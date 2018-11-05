@@ -69,6 +69,13 @@ def extract_names(filename):
 
     return name_list
 
+def create_sum_file( names , filename ):
+    summary = filename + '.summary'
+
+    with open( summary , 'w') as f:
+        f.write(names)
+    
+
 
 def main():
     # This command-line parsing code is provided.
@@ -89,14 +96,20 @@ def main():
     # option flag
     create_summary = args.summaryfile
 
-    # +++your code here+++
+     # +++your code here+++
     # For each filename, get the names, then either print the text output
     # or write it to a summary file
-
-    for file in file_list:
-        name_list = extract_names(file)
-        print('\n'.join(name_list) + '\n')
-
+    
+    if create_summary:
+        for file in file_list:
+            name_list = extract_names(file)
+            names = '\n'.join(name_list) + '\n'
+            create_sum_file( names , file )
+    else:
+        for file in file_list:
+            name_list = extract_names(file)
+            print('\n'.join(name_list) + '\n')
+    
 
 if __name__ == '__main__':
     main()
