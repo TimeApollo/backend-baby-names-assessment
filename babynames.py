@@ -41,40 +41,40 @@ Suggested milestones for incremental development:
 
 def extract_names(filename):
     """
-    Given a file name for baby.html, returns a list starting with the year string
-    followed by the name-rank strings in alphabetical order.
+    Given a file name for baby.html, returns a list starting with the year
+    string followed by the name-rank strings in alphabetical order.
     ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
     """
     # +++your code here+++
 
-    with open(filename , 'r' ) as f:
+    with open(filename, 'r') as f:
         data = f.read()
-    
-    year = re.search(r'Popularity\sin\s(\d+)' , data)
 
-    name_dict = {}
+    year = re.search(r'Popularity\sin\s(\d+)', data)
+
+    name_d = {}
     name_list = [year.group(1)]
 
-    names = re.findall(r'<td>(\d+)</td><td>(\w+)</td><td>(\w+)</td>' , data)
+    names = re.findall(r'<td>(\d+)</td><td>(\w+)</td><td>(\w+)</td>', data)
 
     # [0] = rank; [1] = guy ; [2] = girl
     for name in names:
-        if not name_dict.get(name[1]) or int(name_dict[name[1]] > int(name[0])):
-            name_dict[name[1]] = name[0]
-        if not name_dict.get(name[2]) or int(name_dict[name[2]] > int(name[0])):
-            name_dict[name[2]] = name[0]
+        if not name_d.get(name[1]) or int(name_d[name[1]]) > int(name[0]):
+            name_d[name[1]] = name[0]
+        if not name_d.get(name[2]) or int(name_d[name[2]]) > int(name[0]):
+            name_d[name[2]] = name[0]
 
-    for key in sorted(name_dict):
-        name_list.append( key + ' ' + name_dict[key])
+    for key in sorted(name_d):
+        name_list.append(key + ' ' + name_d[key])
 
     return name_list
 
-def create_sum_file( names , filename ):
+
+def create_sum_file(names, filename):
     summary = filename + '.summary'
 
-    with open( summary , 'w') as f:
+    with open(summary, 'w') as f:
         f.write(names)
-    
 
 
 def main():
@@ -83,7 +83,7 @@ def main():
     parser.add_argument(
         '--summaryfile', help='creates a summary file', action='store_true')
     # The nargs option instructs the parser to expect 1 or more filenames.
-    # It will also expand wildcards just like the shell, e.g. 'baby*.html' will work.
+    # expands wildcards just like the shell, 'baby*.html' will work.
     parser.add_argument('files', help='filename(s) to parse', nargs='+')
     args = parser.parse_args()
 
@@ -96,20 +96,20 @@ def main():
     # option flag
     create_summary = args.summaryfile
 
-     # +++your code here+++
+    # +++your code here+++
     # For each filename, get the names, then either print the text output
     # or write it to a summary file
-    
+
     if create_summary:
         for file in file_list:
             name_list = extract_names(file)
             names = '\n'.join(name_list) + '\n'
-            create_sum_file( names , file )
+            create_sum_file(names, file)
     else:
         for file in file_list:
             name_list = extract_names(file)
             print('\n'.join(name_list) + '\n')
-    
+
 
 if __name__ == '__main__':
     main()
